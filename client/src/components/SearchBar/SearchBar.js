@@ -38,12 +38,11 @@ class SearchBar extends Component {
                         // Can be changed to navbar category search to ensure results?
                         <div>
                             <h1> Search for Books! </h1>
-                            <p> Enter Category of Book </p>
 
                             <form onSubmit={this.searchTools.bind(this, dispatch)}>
                                 <input 
                                 type="text" 
-                                placeholder="Category Name..."
+                                placeholder=""
                                 name="searchTerms"
                                 value={this.state.searchTerms}
                                 onChange={this.onChange}
