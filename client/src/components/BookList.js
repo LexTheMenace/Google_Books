@@ -2,12 +2,20 @@ import React, { Component } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap'
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { Consumer } from '../context'
+import axios from 'axios';
 
 class BookList extends Component {
-    /*  componentDidMount() {
-         this.props.getItems();
+    //Move onclick function to here and add an axios.post to the books db!
+    saveBook = (newBook) => {
+        console.log(newBook);
+        axios.post(`api/books`, { newBook })
+         .then(res => {
+           console.log("Book Save Successful!");
+           console.log(res.data);
+         })
      }
-  */
+    
+
     render() {
 
         return (
@@ -18,25 +26,7 @@ class BookList extends Component {
                     return (
                         <React.Fragment>
                             <Container>
-                                <Button
-                                    color="dark"
-                                    style={{ marginBottom: '2rem' }}
-                             onClick={() => {
-                                    const title = prompt('enter book title')
-                                    const author = prompt('enter book author')
-                                    const description = prompt('enter book description')
-                                    const link = prompt('enter book url')
-                                  /*   
-                                    if(title) {
-                                        this.setState(state => ({
-                                            books: [...state.books, {id: (Math.random()), title, author, description, link }]
-                                        }))
-                                    }   */ 
-                                }} >
-                                    Add Book
-                     </Button>
-
-                                <ListGroup>
+                               <ListGroup>
                                     <TransitionGroup className='reading-list'>
                                         {book_list.map(book => (
                                             <CSSTransition key={book.id} timeout={500} className='dark'>
@@ -46,6 +36,7 @@ class BookList extends Component {
                                                         color='danger'
                                                         size='sm'
                                                     >&times;</Button>
+                                                    <img src={book.volumeInfo.imageLinks.thumbnail}/>
                                                     <br />
                                                     <br />
                                            Title: {book.volumeInfo.title}
@@ -54,12 +45,24 @@ class BookList extends Component {
                                            Authors: {book.volumeInfo.authors}
                                                     <br />
                                                     <br />
-                                            Desc:{book.volumeInfo.description}
+                                            Desc:<p>{book.volumeInfo.description}</p>
                                                     <br />
                                                     <br />
-                                           Link:  {book.volumeInfo.infolink}
+                                           Link:  <a href={book.volumeInfo.previewLink} target='blank'> View on Google</a>
                                                     <br />
                                                     <br />
+                                                    <Button
+                                                    onClick={() => {
+                                                const newBook = {
+                                                    id: book.id,
+                                                    title: book.volumeInfo.title,
+                                                    description: book.volumeInfo.description,
+                                                    authors: book.volumeInfo.authors,
+                                                    link: book.volumeInfo.previewlink  
+                                                }      
+                                                this.saveBook(newBook)                                          
+                                                    }}
+                                                    ></Button>
                                                 </ListGroupItem>
                                             </CSSTransition>
                                         ))}

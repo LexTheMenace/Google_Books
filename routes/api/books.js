@@ -16,11 +16,14 @@ router.get('/', (req, res) => {
 //@desc  Create A Book
 //@access Public
 router.post('/', (req, res) => {
+    const {id, title, author, description, link } = req.body.newBook;
+
     const newBook = new Book({
-        title: req.body.title,
-        author: req.body.author,
-        description: req.body.description,
-        link: req.body.link
+        id: id,
+        title,
+        author: author,
+        description: description,
+        link: link
     });
 
     newBook.save().then(book => res.json(book))

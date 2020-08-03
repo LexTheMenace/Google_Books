@@ -2,8 +2,25 @@ import React, { Component } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap'
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { Consumer } from '../context'
+import axios from 'axios';
 
-class OldBookList extends Component {
+class savedBooks extends Component {
+    state = {
+        savedBooks: []
+    }
+    //Move onclick function to here and add an axios.post to the books db!
+    saveBook = (newBook) => {
+        console.log(newBook);
+        axios.get(`api/books`)
+         .then(res => {
+           console.log("Saved Books!");
+           console.log(res.data);
+           const savedBooks = res.data
+           this.setState({ savedBooks })
+         })
+     }
+    
+
     render() {
 
         return (
@@ -24,32 +41,21 @@ class OldBookList extends Component {
                                                         color='danger'
                                                         size='sm'
                                                     >&times;</Button>
+                                                    <img src={book.thumbnail}/>
                                                     <br />
                                                     <br />
-                                           Title: {book.volumeInfo.title}
+                                           Title: {book.title}
                                                     <br />
                                                     <br />
-                                           Authors: {book.volumeInfo.authors}
+                                           Authors: {book.authors}
                                                     <br />
                                                     <br />
-                                            Desc:<p>{book.volumeInfo.description}</p>
+                                            Desc:<p>{book.description}</p>
                                                     <br />
                                                     <br />
-                                           Link:  <a href={book.volumeInfo.previewLink} target='blank'> View on Google</a>
+                                           Link:  <a href={book.link} target='blank'> View on Google</a>
                                                     <br />
                                                     <br />
-                                                    <Button
-                                                    onClick={() => {
-                                                const newBook = {
-                                                    id: book.id,
-                                                    title: book.volumeInfo.title,
-                                                    description: book.volumeInfo.description,
-                                                    authors: book.volumeInfo.authors,
-                                                    link: book.volumeInfo.previewlink  
-                                                }      
-                                                console.log(newBook);                                            
-                                                    }}
-                                                    ></Button>
                                                 </ListGroupItem>
                                             </CSSTransition>
                                         ))}
@@ -66,4 +72,4 @@ class OldBookList extends Component {
     }
 }
 
-export default OldBookList
+export default savedBooks;

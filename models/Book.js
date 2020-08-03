@@ -12,13 +12,11 @@ const BookSchema = new Schema({
         default: Date.now
     },
     author: {
-        type: String,
-        required: true
+        type: String
     },
     description: String,
     link: {
-        type: String, 
-        required: true
+        type: String
     }
 })
 

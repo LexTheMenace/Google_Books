@@ -46,7 +46,7 @@ export class Provider extends Component {
     render() {
         return (
             // passing state as value to access anywhere you bring this in
-        <Context.Provider value={this.state}>
+        <Context.Provider value={this.state} >
             {this.props.children}
         </Context.Provider>
         )
