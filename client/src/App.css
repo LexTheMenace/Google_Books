@@ -19,3 +19,6 @@ opacity: 1;
 transition: opacity 1000ms ease-in;
 
 }
+.search-bar {
+    margin-bottom: 50px;
+}

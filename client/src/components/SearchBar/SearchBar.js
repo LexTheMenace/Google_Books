@@ -18,10 +18,12 @@ class SearchBar extends Component {
 
         axios.get(`https://www.googleapis.com/books/v1/volumes?q=${this.state.searchTerms}&key=AIzaSyDHagYFaIRvhhLUO1tCRVAjVhE3pX-6U2E`)
         .then(res => {
-         console.log(res);
+            console.log(res);
+               const books = res.data.items.filter(item => item.volumeInfo.imageLinks)
+               this.setState({book_list: books})
         dispatch({
             type: 'SEARCH_BOOKS',
-            payload: res.data.items
+            payload: books
         })
         }) 
         .catch(err => console.log(err))
@@ -36,18 +38,22 @@ class SearchBar extends Component {
                    const { dispatch } = value;
                     return (
                         // Can be changed to navbar category search to ensure results?
-                        <div>
+                        <div className='search-bar'>
                             <h1> Search for Books! </h1>
 
-                            <form onSubmit={this.searchTools.bind(this, dispatch)}>
+                            <form  onSubmit={this.searchTools.bind(this, dispatch)}>
+                              <div className='form-group'>
                                 <input 
                                 type="text" 
                                 placeholder=""
                                 name="searchTerms"
+                                className="form-control-file"
                                 value={this.state.searchTerms}
                                 onChange={this.onChange}
                                 ></input>
-                                <button type='submit' style={{padding: "10px"}}>Get Books!</button>
+                                <button className="btn btn-dark" type='submit' style={{padding: "10px", marginTop: '10px'}}>Get Books!</button>  
+                              </div>
+                                
                             </form>
                         </div>
                     );

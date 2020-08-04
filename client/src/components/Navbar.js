@@ -10,6 +10,7 @@ import {
     Container
 } from 'reactstrap';
 
+
  class Navbar extends Component {
      state = {
          isOpen: false
@@ -24,18 +25,19 @@ import {
         return(
              <div>
             <ReactNavbar color="dark" dark expand="sm">
-                <Container>
-                    <NavbarBrand href=""> Book List</NavbarBrand>
+                    <NavbarBrand href=""> Google Books </NavbarBrand>
                     <NavbarToggler onClick={this.toggle}/>
                     <Collapse isOpen={this.state.isOpen} navbar/>
                     <Nav className='ml-auto' navbar>
                         <NavItem>
-                            <NavLink href='https://github.com/LexTheMenace'>
-                                GitHub
+                            <NavLink href='/'>
+                                Search
                             </NavLink>
                         </NavItem>
+                        <NavItem>
+                            <NavLink href="/saved">Saved</NavLink>
+                        </NavItem>
                     </Nav>
-                </Container>
             </ReactNavbar>
         </div>  
         )

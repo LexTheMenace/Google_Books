@@ -1,75 +1,80 @@
 import React, { Component } from 'react';
-import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap'
+import {
+    Container, ListGroup, ListGroupItem, Button, Card, CardImg, CardText, CardBody,
+    CardTitle, CardSubtitle
+} from 'reactstrap'
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { Consumer } from '../context'
 import axios from 'axios';
 
 class savedBooks extends Component {
     state = {
         savedBooks: []
     }
+
     //Move onclick function to here and add an axios.post to the books db!
-    saveBook = (newBook) => {
-        console.log(newBook);
+    componentDidMount() {
         axios.get(`api/books`)
-         .then(res => {
-           console.log("Saved Books!");
-           console.log(res.data);
-           const savedBooks = res.data
-           this.setState({ savedBooks })
-         })
+            .then(res => {
+                console.log(res);
+                const savedBooks = res.data
+                this.setState({ savedBooks })
+            })
+            .catch(err => console.log(err))
+    }
+
+      handleDelete = (book) => {
+         axios.delete(`api/books/${book._id}`)
+             .then(res => {
+                 console.log("DELETED");
+                 console.log(res.data);
+                 this.componentDidMount()
+             })
+             .catch(err => console.log(err))
      }
-    
-
+  
     render() {
-
         return (
-            <Consumer>
-                {value => {
-                    const { book_list } = value
-                    console.log(value);
-                    return (
-                        <React.Fragment>
-                            <Container>
-                               <ListGroup>
-                                    <TransitionGroup className='reading-list'>
-                                        {book_list.map(book => (
-                                            <CSSTransition key={book.id} timeout={500} className='dark'>
-                                                <ListGroupItem>
-                                                    <Button
-                                                        className='remove-btn'
-                                                        color='danger'
-                                                        size='sm'
-                                                    >&times;</Button>
-                                                    <img src={book.thumbnail}/>
-                                                    <br />
-                                                    <br />
-                                           Title: {book.title}
-                                                    <br />
-                                                    <br />
-                                           Authors: {book.authors}
-                                                    <br />
-                                                    <br />
-                                            Desc:<p>{book.description}</p>
-                                                    <br />
-                                                    <br />
-                                           Link:  <a href={book.link} target='blank'> View on Google</a>
-                                                    <br />
-                                                    <br />
-                                                </ListGroupItem>
-                                            </CSSTransition>
-                                        ))}
-                                    </TransitionGroup>
-                                </ListGroup>
-                            </Container>
-                        </React.Fragment>
-
-                    )
-                }}
-            </Consumer>
+            <React.Fragment>
+                <Container>
+                    <ListGroup>
+                        <TransitionGroup className='reading-list'>
+                            {this.state.savedBooks.map(book => (
+                                <CSSTransition key={book.id} timeout={500} className='dark'>
+                                    <ListGroupItem>
+                                        <Card>
+                                            <div className="row no-gutters">
+                                                <div className="col-md-4">
+                                                    <CardImg style={{maxWidth: '80%'}} top width="100%" src={book.thumbnail} alt="Card image cap" />
+                                                </div>
+                                                <div className="col-md-8">
+                                                    <CardBody >
+                                                        <CardTitle><h3>{book.title}</h3> </CardTitle>
+                                                        <CardSubtitle>Author: {book.author}</CardSubtitle>
+                                                        <CardText>Description: {book.description}</CardText>
+                                                        <CardText><a href={book.link} target='blank'> View on Google</a></CardText>
+                                                    </CardBody>
+                                                </div>
+                                            </div>
+                                               <Button
+                                            className='remove-btn'
+                                            color='danger'
+                                            size='sm'
+                                         onClick={() => {
+                                           this.handleDelete(book)
+                                         }
+                                           }
+                                        >REMOVE THIS BOOK</Button>
+                                        </Card>
+                                     
+                                    </ListGroupItem>
+                                </CSSTransition>
+                            ))}
+                        </TransitionGroup>
+                    </ListGroup>
+                </Container>
+            </React.Fragment>
 
         )
     }
 }
-
 export default savedBooks;

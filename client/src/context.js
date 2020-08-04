@@ -35,10 +35,17 @@ export class Provider extends Component {
     } */
     
     componentDidMount() {
-        axios.get(`https://www.googleapis.com/books/v1/volumes?q=popular&key=AIzaSyDHagYFaIRvhhLUO1tCRVAjVhE3pX-6U2E`)
+        axios.get(`https://www.googleapis.com/books/v1/volumes?q=&key=AIzaSyDHagYFaIRvhhLUO1tCRVAjVhE3pX-6U2E`)
             .then(res => {
-            this.setState({book_list: res.data.items})
-            console.log(this.state.book_list);
+               res.data.items.map(item => {
+                    console.log(item);
+                        if (!item.volumeInfo.imageLinks.thumbnail) {
+                            item.volumeInfo.imageLinks.thumbnail = "https://via.placeholder.com/150"
+                            return item.volumeInfo.imageLinks.thumbnail                                                                  
+                        }  else {
+                            return item.volumeInfo.imageLinks.thumbnail
+                         }})
+            this.setState({book_list:res.data.items})
             }) 
             .catch(err => console.log(err)) 
     }
