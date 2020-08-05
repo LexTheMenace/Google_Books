@@ -26,8 +26,8 @@ import {
              <div>
             <ReactNavbar color="dark" dark expand="sm">
                     <NavbarBrand href=""> Google Books </NavbarBrand>
-                    <NavbarToggler onClick={this.toggle}/>
-                    <Collapse isOpen={this.state.isOpen} navbar/>
+                    {/* <NavbarToggler onClick={this.toggle}/>
+                    <Collapse isOpen={this.state.isOpen} navbar/> */}
                     <Nav className='ml-auto' navbar>
                         <NavItem>
                             <NavLink href='/'>
@@ -38,6 +38,7 @@ import {
                             <NavLink href="/saved">Saved</NavLink>
                         </NavItem>
                     </Nav>
+                    
             </ReactNavbar>
         </div>  
         )
